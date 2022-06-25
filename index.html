@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+
+<html>
+    <head> 
+        <title>觀展牛奶車 - 駐車據點</title>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta property="og:locale" content="zh_TW">
+
+        <link rel="shortcut icon" type="image/x-icon" href="docs/images/favicon.ico" />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.18/dist/sweetalert2.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.8.0/dist/leaflet.min.css" crossorigin="anonymous" />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol@0.76.1/dist/L.Control.Locate.min.css" crossorigin="anonymous" />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" crossorigin="anonymous" />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" crossorigin="anonymous" />
+
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.18/dist/sweetalert2.all.min.js"></script>
+        <script src="https://unpkg.com/axios/dist/axios.min.js" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/papaparse@5.3.2/papaparse.min.js" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/leaflet@1.8.0/dist/leaflet.min.js" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol@0.76.1/src/L.Control.Locate.min.js" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.min.js" crossorigin="anonymous"></script>
+        <style>
+            html, body, #map {
+                 width: 100%;
+                 height: 100%;
+                 margin: 0;
+                 padding: 0;
+            }
+
+            #layer-visible {
+                background-color: #fff;
+                padding: 0.3rem 0.5rem;
+                position: absolute;
+                right: 10px;
+                top: 10px;
+            }
+
+            .btn-line-green {
+                background-color: #06c755 !important;
+                border: 0px;
+            } 
+
+            .btn-pecgo-blue {
+                background-color: #1875D1 !important;
+                border: 0px;
+            }
+         </style>
+    </head>
+    <body>
+        <div id="layer-visible" class="leaflet-bar leaflet-control text-monospace unselectable">
+            <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" id="selfPickupChecked" checked>
+                <label class="form-check-label" for="selfPickupChecked">預訂自取</label>
+            </div>
+
+            <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" id="centralManagementChecked" checked>
+                <label class="form-check-label" for="centralManagementChecked">寄放管理室</label>
+            </div>
+<!--             
+            <div class="d-flex custom-control custom-switch">
+                <input id="switch-layer-selfPickup" type="checkbox" class="custom-control-input my-auto">
+                <label for="switch-layer-selfPickup" class="custom-control-label ms-2 my-ayto">預訂自取</label>
+            </div>
+            <div class="d-flex custom-control custom-switch">
+                <input id="switch-layer-committee" type="checkbox" class="custom-control-input my-auto">
+                <label for="switch-layer-committee" class="custom-control-label ms-2 my-ayto">寄放管理室</label>
+            </div> -->
+            <div class="border-top mt-2 mb-2"></div>
+            <a class="btn btn-pecgo-blue btn-block text-white mt-2 h-auto w-100" href="https://pec-go.web.app" role="button" target="_blank">馬上訂購</a>
+        </div>
+        <div id="map">
+        </div>
+        <script type="text/javascript">
+            // initialize
+            let map;
+            let markerCluster;
+            let locate;
+            const markerIcon = L.Icon.extend({
+                options: {
+                    iconSize: [64, 64], // size of the icon
+                    iconAnchor: [18, 36], // point of the icon which will correspond to marker's location
+                    popupAnchor: [0, -38], // point from which the popup should open relative to the iconAnchor
+                }
+            })
+            const icons = {
+                car: new markerIcon({ iconUrl: 'https://i.imgur.com/LvJk5Lc.png' })
+            }
+            let defaultFetchOptions = {
+                selfPickup: true,
+                centralManagement: true
+            }
+
+            // 監聽「類型」
+            document.getElementById("selfPickupChecked").addEventListener("click", function(){
+                refetchDataAndCreateMarker()
+            });
+            document.getElementById("centralManagementChecked").addEventListener("click", function(){
+                refetchDataAndCreateMarker()
+            });
+
+            initMap()
+
+            async function initMap() {
+                // tileLayer
+                let layers = L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/light_all/{z}/{x}/{y}.png', {
+                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="https://carto.com/attribution">CARTO</a>',
+                })
+        
+                // 準備地圖
+                map = L.map('map', {
+                    center: [24.162361500290167, 120.64669143864016],
+                    layers: [layers],
+                    tap: false,
+                    zoom: 12,
+                })
+
+                // 定位
+                locate = L.control.locate({
+                    initialZoomLevel: 14,
+                    position: 'topleft',
+                    strings: { title: '取得定位', popup: '您目前的位置' },
+                }).addTo(map)
+
+                // 標記集合
+                markerCluster = await createMarkerCluster()
+                showLoading()
+                fetchDataAndCreateMarker(markerCluster, defaultFetchOptions)
+                locate.start()
+            }
+
+            async function showLoading () {
+                await Swal.fire({
+                    title: '請稍候',
+                    text: '觀展牛奶車正在前往據點',
+                    imageUrl: 'https://i.imgur.com/LvJk5Lc.png',
+                    imageWidth: 250,
+                    imageHeight: 250,
+                    timer: 2500,
+                    imageAlt: 'Custom image',
+                    allowOutsideClick: false,
+                    showConfirmButton: false,
+                    willOpen: () => Swal.showLoading(),
+                })
+            }
+
+            function businessHourInfo (businessHour) {
+                let info = ''
+                for (const item of businessHour) {
+                    info += `<div>${item}</div>`
+                }
+                return info
+            }
+
+            async function createMarkerCluster () {
+                markerCluster = L.markerClusterGroup({
+                    chunkedLoading: true,
+                    disableClusteringAtZoom: 15,
+                    spiderfyOnMaxZoom: false,
+                })
+                return markerCluster
+            }
+            
+            async function refetchDataAndCreateMarker () {
+                const options = {
+                    selfPickup: document.getElementById('selfPickupChecked').checked,
+                    centralManagement: document.getElementById('centralManagementChecked').checked,
+                }
+            
+                map.removeLayer(markerCluster)
+                markerCluster = await createMarkerCluster()
+                fetchDataAndCreateMarker(markerCluster, options)
+            }
+
+            async function fetchDataAndCreateMarker (markerCluster, options) {
+                try {
+                    let { selfPickup, centralManagement } = options
+                    const points = await fetchData(
+                        url='https://docs.google.com/spreadsheets/d/e/2PACX-1vRoiI74btFPRwDN0496EBKNkXKqvm4FSAt7uvE8AlKIqS7f6LQAjJnNSLip86SSs2t1ytiBSzhFdGis/pub?gid=0&single=true&output=csv',
+                        selfPickup=selfPickup,
+                        centralManagement=centralManagement
+                    )
+                    
+                    // Popup
+                    const pointPopup = point => {
+                        return `<h5>${point.name}</h5>` +
+                            (point.thumbnail !== '' ? `<img class="img-thumbnail img-fluid mb-2" src="${point.thumbnail}">` : ``) +
+                            `<table class="table table-sm mt-1 mb-2 table-borderless table-store text-monospace">` +
+                                `<tbody>` +
+                                    `<tr><th>電話</th><td><a href="tel:${point.mobile_no.split('#')[0]},${point.mobile_no.split('#')[1]}">${point.mobile_no}</a></td></tr>` +
+                                    `<tr><th>地址</th><td>${point.address}</td></tr>` +
+                                    `<tr><th>類型</th><td>${point.type}</td></tr>` +
+                                    `<tr><th>時間</th><td>${businessHourInfo(point.businessHour)}</td></tr>` +
+                                `</tbody>` +
+                            '</table>' +
+                            `<a class="btn btn-dark btn-block text-white mt-2 w-100" ` +
+                                `href="https://www.google.com/maps/dir/?api=1&amp;destination=${point.lat}%2C${point.lng}&amp;openExternalBrowser=1" ` +
+                                `role="button" target="_blank">Google 導航` +
+                            `</a>` +
+                            (point.lineOpenChatLink !== '' ? `<a class="btn btn-line-green btn-block text-white mt-2 w-100" href="${point.lineOpenChatLink}" role="button" target="_blank">加入 Line 社群</a>` : ``)
+                    }
+                    
+                    points.map(point => L.marker(new L.LatLng(point.lat, point.lng), { icon: icons.car })  // 新增Marker
+                        .bindPopup(pointPopup(point)))  // 資訊視窗
+                        .forEach(item => markerCluster.addLayer(item));  // 把marker加入 L.markerClusterGroup中
+                    map.addLayer(markerCluster);
+                } catch (err) {
+                    console.log(err)
+                }
+            }
+
+            async function fetchData (url, selfPickup = true, centralManagement = true) {
+                try {
+                    // 取得 CSV 並解析
+                    const response = await axios.get(url,{ responseType: 'blob'})
+                    const csv = await response.data.text();
+                    let rawPoints = await Papa.parse(csv, {
+                        encoding: 'utf8',
+                        header: true,
+                    })
+
+                    // 重新命名欄位
+                    function renameKey ( obj, oldKey, newKey ) {
+                        obj[newKey] = obj[oldKey];
+                        delete obj[oldKey];
+                    }
+
+                    const points = rawPoints.data
+
+                    points.forEach( obj => renameKey( obj, '名稱', 'name' ) )
+                    points.forEach( obj => renameKey( obj, '地址', 'address' ) )
+                    points.forEach( obj => renameKey( obj, '電話', 'mobile_no' ) )
+                    points.forEach( obj => renameKey( obj, 'Line 社群連結', 'lineOpenChatLink' ) )
+                    points.forEach( obj => renameKey( obj, '類型', 'type' ) )
+                    points.forEach( obj => renameKey( obj, '封面照', 'thumbnail' ) )
+
+                    // 上班時間處理
+                    points.forEach( obj => {
+                        obj['businessHour'] = obj['時間'].split('\n')
+                        delete obj['時間']
+                    })
+
+                    // 經緯度處理
+                    points.forEach( obj => {
+                        obj['lat'] = obj['經緯度'].split(',')[0]
+                        obj['lng'] = obj['經緯度'].split(',')[1]
+                        delete obj['經緯度']
+                    })
+                    
+                    let pointsFiltered = points.filter(point => {
+                        return (point.type == '預訂自取' && selfPickup) || (point.type == '寄放管理室' && centralManagement)
+                    })
+
+                    return pointsFiltered
+                } catch (err) {
+                    console.log(err)
+                }
+            }
+        </script>
+    </body>
+</html>
