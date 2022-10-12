@@ -249,9 +249,7 @@
 
                     points.map(point => L.marker(new L.LatLng(point.lat, point.lng), { icon: icons.car })  // 新增Marker
                         .bindPopup(pointPopup(point)))  // 資訊視窗
-                        .forEach(function (item) {
-                            markerCluster.addLayer(item)
-                        })
+                        .forEach(item => markerCluster.addLayer(item));  // 把marker加入 L.markerClusterGroup中
 
                     // 顯示半徑 1KM 的 Layer
                     let circleGroup = L.featureGroup();
