@@ -235,8 +235,8 @@
                     // Popup
                     const pointPopup = point => {
                         return `<h5 class="text-center">${point.name}</h5>` +
-                            (point.thumbnail !== '' ? `<img class="img-thumbnail img-fluid mb-2" src="${point.thumbnail}">` : ``) +
-                            `<table class="table table-sm mt-1 mb-2 table-borderless table-store text-monospace">` +
+                            (point.thumbnail !== '' ? `<img class="img-thumbnail img-fluid mb-2" alt="觀展牛奶車" src="${point.thumbnail}">` : ``) +
+                            `<table class="table table-sm mt-1 mb-2 table-borderless table-store text-monospace" aria-describedby="info">` +
                                 `<tbody>` +
                                     `<tr><th>電話</th><td><a href="tel:${point.mobile_no.split('#')[0]},${point.mobile_no.split('#')[1]}">${point.mobile_no}</a></td></tr>` +
                                     `<tr><th>地址</th><td>${point.address}</td></tr>` +
