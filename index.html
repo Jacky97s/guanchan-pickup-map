@@ -69,7 +69,7 @@
                 z-index: 1001; /* Stay on top */
                 top: 0;
                 right: 0;
-                background-color: #F2FBFF; /* Black*/
+                background-color: #FFFFFF; /* Black*/
                 overflow-x: hidden; /* Disable horizontal scroll */
                 transition: 0.15s; /* 0.5 second transition effect to slide in the sidebar */
                 display: flex;
@@ -84,32 +84,46 @@
                 padding: 25px 15px 10px;
             }
 
-            /* The sidebar links */
-            #collapse-info {
-                padding: 5px 24px;
-            }
-
-            #sidebar-collapse {
-                text-decoration: none;
-                font-size: 18px;
-                color: red;
-                display: block;
-                padding: 8px 0;
-            }
-
             /* Position and style the close button (top right corner) */
             .sidebar .closeBtn {
                 position: absolute;
-                top: -10px;
+                top: 0px;
                 right: 25px;
                 font-size: 36px;
                 margin-left: 50px;
                 color: #444;
+                z-index: 1001;
             }
 
             .sidebar .closeBtn:hover {
                 cursor: pointer;
             } 
+
+            #profile {
+                display: flex;
+                justify-content: center;
+                width: 100%;
+                position: absolute;
+                margin-left: auto;
+                margin-top: 25px;
+            }
+
+            #profile-img {
+                background-color: #E3F3FF;
+                padding: 10px;
+
+                /* 陰影 */
+                box-shadow: 0px 4px 4px 0px rgba(150,177,203,0.24);
+                -webkit-box-shadow: 0px 4px 4px 0px rgba(150,177,203,0.24);
+                -moz-box-shadow: 0px 4px 4px 0px rgba(150,177,203,0.24);
+            }
+
+            #banner {
+                background-color: #F0F4F7;
+                height: 135px;
+                margin-top: 90px;
+                padding-top: 60px;
+            }
 
             #sidebar-welcome-info {
                 padding: 0 24px;
@@ -128,17 +142,13 @@
                 flex-direction: column;
                 align-items: center;
                 margin-bottom: 20px;
+                font-size: 13px;
             }
 
-            .collapsing {
-                height: auto;
-                transition: 0.3s;
-            }
-
-            #social-network {
-                margin-top: 50px;
+            #sidebar-footer-action {
                 display: flex;
-                justify-content: space-around;
+                justify-content: space-evenly;
+                margin-bottom: 25px;
             }
 
             #join-facebook-btn {
@@ -155,6 +165,24 @@
                 width: 100%;
             }
 
+            #action-list {
+                margin-top: 25px;
+            }
+
+            .action-btn {
+                padding: 12px;
+                font-size: 16px;
+                color: #2f84c0;
+                background-color: #E3F3FF;
+                border-radius: 10px;
+                /* drop shadow */
+                box-shadow: 0px 4px 4px 0px rgba(150,177,203,0.24);
+                -webkit-box-shadow: 0px 4px 4px 0px rgba(150,177,203,0.24);
+                -moz-box-shadow: 0px 4px 4px 0px rgba(150,177,203,0.24);
+                margin: 0 5px;
+                margin-bottom: 15px;
+            }
+
             /* The button used to open the sidebar */
             .openBtn {
                 font-size: 20px;
@@ -167,6 +195,14 @@
 
             .openBtn:hover {
                 background-color: #444;
+            }
+
+            .modal-swal-popup {
+                border-radius: 20px;
+            }
+
+            .modal-swal-confirm-btn {
+                background-color: #2f84c0 !important;
             }
 
             /* Style page content - use this if you want to push the page content to the right when you open the side navigation */
@@ -184,51 +220,48 @@
     <body>
         <div id="mySidebar" class="sidebar">
             <div class="closeBtn" onclick="closeNav()">&times;</div>
-                <div id="content">
-                    <div>
-                        <div id="sidebar-welcome-info">
-                            <h3 id="sidebar-title" class="text-center">PEC GO 觀展牛奶車</h3>
-                            <h5 id="sidebar-subtitle" class="text-center">· 專配送統一企業冷藏品 ·</h5>
-                            <hr>
-                            <div class="text-center">觀展牛奶車前進社區為大家服務啦！<br>歡迎大家依據配送區域加入該社群 💙</div>
-                        </div>
-        
-                        <div id="collapse-info">
-                            <a id="sidebar-collapse" data-bs-toggle="collapse" data-bs-target="#joinCommunity" href="#joinCommunity" role="button" aria-expanded="true" aria-controls="joinCommunity" onclick="openCollapse('joinCommunity')">加入社群</a>
-                            <div class="collapse collapsing" id="joinCommunity">
-                                <div class="card card-body">
-                                    joinCommunity
+                <div>
+                    <div id="profile" >
+                        <img class="img-responsive rounded-circle" id="profile-img" src="https://i.imgur.com/LvJk5Lc.png" width="110" height="110">
+                    </div>
+                    <div id="banner">
+                        <h4 id="sidebar-title" class="text-center">PEC GO 觀展牛奶車</h4>
+                        <h6 id="sidebar-subtitle" class="text-center">專配送統一企業冷藏品</h6>
+                    </div>
+                    <div id="content">
+                        <div class="text-center">觀展牛奶車前進社區為大家服務啦！<br>歡迎大家依據配送區域加入該社群 💙</div>
+                        <div id="action-list">
+                            <a class="text-decoration-none" href="https://online.fliphtml5.com/bqfbe/caoc" target="_blank">
+                                <div class="action-btn text-left" role="button">
+                                    產品目錄
                                 </div>
+                            </a>
+                            <div class="action-btn text-left" role="button" onclick="openCommunityDeliveryInvitation()">
+                                社區配送大募集
                             </div>
-        
-                            <a id="sidebar-collapse" data-bs-toggle="collapse" data-bs-target="#catalogue" href="#catalogue" role="button" aria-expanded="false" aria-controls="catalogue" onclick="openCollapse('catalogue')">產品目錄</a>
-                            <div class="collapse collapsing" id="catalogue">
-                                <div class="card card-body">
-                                    catalogue
-                                </div>
-                            </div>
-        
-                            <a id="sidebar-collapse" data-bs-toggle="collapse" data-bs-target="#communityDeliveryInvitation" href="#communityDeliveryInvitation" role="button" aria-expanded="false" aria-controls="communityDeliveryInvitation" onclick="openCollapse('communityDeliveryInvitation')">社區配送大募集</a>
-                            <div class="collapse collapsing" id="communityDeliveryInvitation">
-                                <div class="card card-body">
-                                    communityDeliveryInvitation
-                                </div>
-                            </div>
-                        </div>
-
-                        <div id="social-network">
-                            <a href="https://lin.ee/vZ6U77F" target="_blank"><img src="https://scdn.line-apps.com/n/line_add_friends/btn/zh-Hant.png" alt="加入好友" height="36" border="0"></a>
-                            <button id="join-facebook-btn">
-                                <a href="https://facebook.com/gzmilkdaily" target="_blank">觀展牛奶車</a>
-                            </button>
                         </div>
                     </div>
                 </div>
+                <div>
+                    <div id="sidebar-footer-action">
+                        <a href="tel:04-23507266,507">
+                            <img src="https://cdn-icons-png.flaticon.com/512/446/446446.png" width="45" height="45" role="button" alt="撥打電商部電話">
+                        </a>
+                        <a href="https://lin.ee/vZ6U77F" target="_blank">
+                            <img src="https://cdn-icons-png.flaticon.com/512/3670/3670089.png" width="45" height="45" role="button" alt="加入官方 Line 好友">
+                        </a>
+                        <a href="https://www.facebook.com/gzmilkdaily" target="_blank">
+                            <img src="https://cdn-icons-png.flaticon.com/512/3670/3670032.png" width="45" height="45" role="button" alt="前往 Facebook 粉絲專頁">
+                        </a>
+                    </div>
 
-                <div id="sidebar-footer">
-                    <div>觀展企業股份有限公司</div>
-                    <div>電商部 <a class="text-decoration-none" href="tel:04-23507266,507">04-23507266 #507</a></div>
-                    <a class="text-decoration-none" href="https://maps.google.com/maps?q=台中西屯區工業區二路9-1號" target="_blank">台中西屯區工業區二路9-1號</a>
+                    <div id="sidebar-footer">
+                        <div>觀展企業股份有限公司</div>
+                        <div>電商部 04-23507266 #507</div>
+                        <div>台中市西屯區工業區二路9-1號</div>
+                        <!-- <div>電商部 <a class="text-decoration-none" href="tel:04-23507266,507">04-23507266 #507</a></div>
+                        <a class="text-decoration-none" href="https://maps.google.com/maps?q=台中西屯區工業區二路9-1號" target="_blank">台中西屯區工業區二路9-1號</a> -->
+                    </div>
                 </div>
             </div>
         </div>
@@ -265,7 +298,6 @@
             initMap()
 
             async function initMap() {
-                // tileLayer
                 let layers = L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/light_all/{z}/{x}/{y}.png', {
                     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="https://carto.com/attribution">CARTO</a>',
                 })
@@ -445,7 +477,7 @@
 
             /* Set the width of the sidebar to 250px and the left margin of the page content to 250px */
             function openNav() {
-                document.getElementById("mySidebar").style.width = "350px";
+                document.getElementById("mySidebar").style.width = "320px";
                 document.getElementById("layer-visible").style.display = "None";
                 document.getElementById("content").style.visibility = "visible";
                 document.getElementById("content").style.opacity = "1";
@@ -459,21 +491,22 @@
                 document.getElementById("content").style.opacity = "0";
             }
 
-            function openCollapse(id) {
-                const collapseList = ['joinCommunity', 'catalogue', 'communityDeliveryInvitation']
-                const isCollapseOpen = document.getElementById(id).style.display == "block"
+            async function openCommunityDeliveryInvitation() {
+                const wrapper = document.createElement('div');
+                wrapper.innerHTML = '<img class="w-100 p-3" src="https://i.imgur.com/GSL20gA.jpeg" style="border-radius: 30px;">' + 
+                                    '<div class="text-start">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>';
 
-                if (isCollapseOpen) {
-                    document.getElementById(id).style.display = "None";
-                } else {
-                    document.getElementById(id).style.display = "block";
-
-                    collapseList.forEach(item => {
-                        if (item != id) {
-                            document.getElementById(item).style.display = "None";
-                        }
-                    })
-                }
+                await Swal.fire({
+                    allowOutsideClick: true,
+                    showConfirmButton: true,
+                    confirmButtonText: '我知道了',
+                    background: '#F0F4F7',
+                    html: wrapper,
+                    customClass: {
+                        popup: 'modal-swal-popup',
+                        confirmButton: 'modal-swal-confirm-btn'
+                    }
+                })
             }
         </script>
     </body>
