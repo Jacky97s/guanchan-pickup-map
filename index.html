@@ -69,34 +69,90 @@
                 z-index: 1001; /* Stay on top */
                 top: 0;
                 right: 0;
-                background-color: #111; /* Black*/
+                background-color: #F2FBFF; /* Black*/
                 overflow-x: hidden; /* Disable horizontal scroll */
-                padding-top: 60px; /* Place content 60px from the top */
-                transition: 0.3s; /* 0.5 second transition effect to slide in the sidebar */
+                transition: 0.15s; /* 0.5 second transition effect to slide in the sidebar */
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                box-shadow: -3px 5px 9px 0px rgba(0,0,0,0.19);
+                -webkit-box-shadow: -3px 5px 9px 0px rgba(0,0,0,0.19);
+                -moz-box-shadow: -3px 5px 9px 0px rgba(0,0,0,0.19);
+            }
+
+            .sidebar #content {
+                padding: 25px 15px 10px;
             }
 
             /* The sidebar links */
-            .sidebar a {
-                padding: 8px 8px 8px 32px;
-                text-decoration: none;
-                font-size: 25px;
-                color: #818181;
-                display: block;
-                transition: 0.3s;
+            #collapse-info {
+                padding: 5px 24px;
             }
 
-            /* When you mouse over the navigation links, change their color */
-            .sidebar a:hover {
-                color: #f1f1f1;
+            #sidebar-collapse {
+                text-decoration: none;
+                font-size: 18px;
+                color: red;
+                display: block;
+                padding: 8px 0;
             }
 
             /* Position and style the close button (top right corner) */
             .sidebar .closeBtn {
                 position: absolute;
-                top: 0;
+                top: -10px;
                 right: 25px;
                 font-size: 36px;
                 margin-left: 50px;
+                color: #444;
+            }
+
+            .sidebar .closeBtn:hover {
+                cursor: pointer;
+            } 
+
+            #sidebar-welcome-info {
+                padding: 0 24px;
+            }
+
+            #sidebar-welcome-info hr {
+                margin: 1rem 0;
+                color: inherit;
+                background-color: #202F5A;
+                border: 0;
+                opacity: 0.25;
+            }
+
+            #sidebar-footer {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                margin-bottom: 20px;
+            }
+
+            .collapsing {
+                height: auto;
+                transition: 0.3s;
+            }
+
+            #social-network {
+                margin-top: 50px;
+                display: flex;
+                justify-content: space-around;
+            }
+
+            #join-facebook-btn {
+                border-radius: 4px;
+                font-size: 14px;
+                height: 28px;
+                padding: 0 8px;
+            }
+
+            #join-facebook-btn a {
+                background-color: rgba(9, 30, 66);
+                border-radius: inherit;
+                height: 100%;
+                width: 100%;
             }
 
             /* The button used to open the sidebar */
@@ -127,11 +183,54 @@
     </head>
     <body>
         <div id="mySidebar" class="sidebar">
-            <a href="javascript:void(0)" class="closeBtn" onclick="closeNav()">&times;</a>
-            <a href="#">About</a>
-            <a href="#">Services</a>
-            <a href="#">Clients</a>
-            <a href="#">Contact</a>
+            <div class="closeBtn" onclick="closeNav()">&times;</div>
+                <div id="content">
+                    <div>
+                        <div id="sidebar-welcome-info">
+                            <h3 id="sidebar-title" class="text-center">PEC GO 觀展牛奶車</h3>
+                            <h5 id="sidebar-subtitle" class="text-center">· 專配送統一企業冷藏品 ·</h5>
+                            <hr>
+                            <div class="text-center">觀展牛奶車前進社區為大家服務啦！<br>歡迎大家依據配送區域加入該社群 💙</div>
+                        </div>
+        
+                        <div id="collapse-info">
+                            <a id="sidebar-collapse" data-bs-toggle="collapse" data-bs-target="#joinCommunity" href="#joinCommunity" role="button" aria-expanded="true" aria-controls="joinCommunity" onclick="openCollapse('joinCommunity')">加入社群</a>
+                            <div class="collapse collapsing" id="joinCommunity">
+                                <div class="card card-body">
+                                    joinCommunity
+                                </div>
+                            </div>
+        
+                            <a id="sidebar-collapse" data-bs-toggle="collapse" data-bs-target="#catalogue" href="#catalogue" role="button" aria-expanded="false" aria-controls="catalogue" onclick="openCollapse('catalogue')">產品目錄</a>
+                            <div class="collapse collapsing" id="catalogue">
+                                <div class="card card-body">
+                                    catalogue
+                                </div>
+                            </div>
+        
+                            <a id="sidebar-collapse" data-bs-toggle="collapse" data-bs-target="#communityDeliveryInvitation" href="#communityDeliveryInvitation" role="button" aria-expanded="false" aria-controls="communityDeliveryInvitation" onclick="openCollapse('communityDeliveryInvitation')">社區配送大募集</a>
+                            <div class="collapse collapsing" id="communityDeliveryInvitation">
+                                <div class="card card-body">
+                                    communityDeliveryInvitation
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="social-network">
+                            <a href="https://lin.ee/vZ6U77F" target="_blank"><img src="https://scdn.line-apps.com/n/line_add_friends/btn/zh-Hant.png" alt="加入好友" height="36" border="0"></a>
+                            <button id="join-facebook-btn">
+                                <a href="https://facebook.com/gzmilkdaily" target="_blank">觀展牛奶車</a>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="sidebar-footer">
+                    <div>觀展企業股份有限公司</div>
+                    <div>電商部 <a class="text-decoration-none" href="tel:04-23507266,507">04-23507266 #507</a></div>
+                    <a class="text-decoration-none" href="https://maps.google.com/maps?q=台中西屯區工業區二路9-1號" target="_blank">台中西屯區工業區二路9-1號</a>
+                </div>
+            </div>
         </div>
         <div id="main">
             <div id="map"></div>
@@ -238,7 +337,6 @@
                             (point.thumbnail !== '' ? `<img class="img-thumbnail img-fluid mb-2" alt="觀展牛奶車" src="${point.thumbnail}">` : ``) +
                             `<table class="table table-sm mt-1 mb-2 table-borderless table-store text-monospace" aria-describedby="info">` +
                                 `<tbody>` +
-                                    `<tr><th>電話</th><td><a href="tel:${point.mobile_no.split('#')[0]},${point.mobile_no.split('#')[1]}">${point.mobile_no}</a></td></tr>` +
                                     `<tr><th>地址</th><td>${point.address}</td></tr>` +
                                     `<tr><th>類型</th><td>${point.type}</td></tr>` +
                                     `<tr><th>時間</th><td>${businessHourInfo(point.businessHour)}</td></tr>` +
@@ -255,23 +353,44 @@
                     let circleGroup = L.featureGroup();
                     
                     markerCluster.getLayers().forEach(function (item) {
-                        // 清除所有 Circle
-                        item.on('mousedown', function (e) {
+                        item.on('click', function(e) {
+                            // 清除所有 Circle
                             map.removeLayer(circleGroup)
                             circleGroup = L.featureGroup();
-                        })
 
-                        // 將點擊的牛奶車畫出半徑 1KM 的 Circle
-                        item.on('mousedown', function(e) {
+                            // 將點擊的牛奶車畫出半徑 1KM 的 Circle
                             L.circle(item.getLatLng(), {
                                 radius: 1000, 
                                 color: '#006EB4', 
                                 weight: 1, 
                                 fillOpacity: .05
                             }).addTo(circleGroup);
-                            map.setView(item.getLatLng(), 14);
+
                             map.addLayer(circleGroup);
+                            map.setView(item.getLatLng(), 15);
+                            item.openPopup()
                         })
+
+                        item.on('mouseover', function(e) {
+                            // 清除所有 Circle
+                            map.removeLayer(circleGroup)
+                            circleGroup = L.featureGroup();
+
+                            // 將點擊的牛奶車畫出半徑 1KM 的 Circle
+                            L.circle(item.getLatLng(), {
+                                radius: 1000, 
+                                color: '#006EB4', 
+                                weight: 1, 
+                                fillOpacity: .05
+                            }).addTo(circleGroup);
+
+                            map.addLayer(circleGroup);
+                            item.openPopup()
+                        })
+                    })
+
+                    map.on('click', function(e) {
+                        map.removeLayer(circleGroup)
                     })
 
                     map.addLayer(markerCluster)
@@ -326,14 +445,35 @@
 
             /* Set the width of the sidebar to 250px and the left margin of the page content to 250px */
             function openNav() {
-                document.getElementById("mySidebar").style.width = "250px";
-                document.getElementById("layer-visible").style.display = "none";
+                document.getElementById("mySidebar").style.width = "350px";
+                document.getElementById("layer-visible").style.display = "None";
+                document.getElementById("content").style.visibility = "visible";
+                document.getElementById("content").style.opacity = "1";
             }
 
             /* Set the width of the sidebar to 0 and the left margin of the page content to 0 */
             function closeNav() {
                 document.getElementById("mySidebar").style.width = "0";
                 document.getElementById("layer-visible").style.display = "block";
+                document.getElementById("content").style.visibility = "hidden";
+                document.getElementById("content").style.opacity = "0";
+            }
+
+            function openCollapse(id) {
+                const collapseList = ['joinCommunity', 'catalogue', 'communityDeliveryInvitation']
+                const isCollapseOpen = document.getElementById(id).style.display == "block"
+
+                if (isCollapseOpen) {
+                    document.getElementById(id).style.display = "None";
+                } else {
+                    document.getElementById(id).style.display = "block";
+
+                    collapseList.forEach(item => {
+                        if (item != id) {
+                            document.getElementById(item).style.display = "None";
+                        }
+                    })
+                }
             }
         </script>
     </body>
