@@ -30,6 +30,10 @@
                  padding: 0;
             }
 
+            .leaflet-control-container {
+                z-index: 500 !important;
+            }
+
             #layer-visible {
                 z-index: 1002;
                 display: block;
@@ -54,7 +58,7 @@
             } */
 
             .btn-line-green {
-                background-color: #06c755 !important;
+                background-color: #38CD00 !important;
                 border: 0px;
             } 
 
@@ -226,20 +230,34 @@
                     <div id="profile" >
                         <img class="img-responsive rounded-circle" id="profile-img" src="https://i.imgur.com/LvJk5Lc.png" width="110" height="110">
                     </div>
-                    <div id="banner">
+                    <div id="banner" style="color: #2F84C0">
                         <h4 id="sidebar-title" class="text-center">PEC GO 觀展牛奶車</h4>
                         <h6 id="sidebar-subtitle" class="text-center">專配送統一企業冷藏品</h6>
                     </div>
-                    <div id="content">
-                        <div class="text-center">觀展牛奶車前進社區為大家服務啦！<br>歡迎大家依據配送區域加入該社群 💙</div>
+                    <div id="content" style="color: #2F84C0">
+                        <div class="text-start px-3">觀展牛奶車前進社區為大家服務啦！歡迎大家依據配送區域加入該社群 💙</div>
+                        <ul class="list-unstyled mt-3 mx-2">
+                            <li>
+                                <img src="/assets/images/bulletListTick.png" width="12" height="12" class="mx-2">固定每週配送效期新鮮的產品
+                            </li>
+                            <li>
+                                <img src="/assets/images/bulletListTick.png" width="12" height="12" class="mx-2">不限訂單金額！免運費！
+                            </li>
+                            <li>
+                                <img src="/assets/images/bulletListTick.png" width="12" height="12" class="mx-2">週週另享獨家優惠
+                            </li>
+                            <li>
+                                <img src="/assets/images/bulletListTick.png" width="12" height="12" class="mx-2">冷藏專車配送，品質保證
+                            </li>
+                        </ul>
                         <div id="action-list">
                             <a class="text-decoration-none" href="https://online.fliphtml5.com/bqfbe/caoc" target="_blank">
                                 <div class="action-btn text-left" role="button">
-                                    產品目錄
+                                    <img src="/assets/images/catalogueIcon.png" height="28" width="28" class="me-3">產品目錄
                                 </div>
                             </a>
                             <div class="action-btn text-left" role="button" onclick="openCommunityDeliveryInvitation()">
-                                社區配送大募集
+                                <img src="/assets/images/communityDeliveryInvitationicon.png" height="28" width="28" class="me-3">社區配送大募集
                             </div>
                         </div>
                     </div>
@@ -300,9 +318,7 @@
             initMap()
 
             async function initMap() {
-                let layers = L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/light_all/{z}/{x}/{y}.png', {
-                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="https://carto.com/attribution">CARTO</a>',
-                })
+                let layers = L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/light_all/{z}/{x}/{y}.png')
         
                 // 準備地圖
                 map = L.map('map', {
@@ -423,8 +439,9 @@
                         })
                     })
 
-                    map.on('click', function(e) {
+                    map.on('mousedown', function(e) {
                         map.removeLayer(circleGroup)
+                        closeNav()
                     })
 
                     map.addLayer(markerCluster)
@@ -496,12 +513,15 @@
             async function openCommunityDeliveryInvitation() {
                 const wrapper = document.createElement('div');
                 wrapper.innerHTML = '<img class="w-100 p-3" src="/assets/images/communityDeliveryInvitation.png" style="border-radius: 30px;">' + 
-                                    '<div class="text-start">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>';
+                                    '<div class="text-start mx-3" style="color: #2F84C0">為提供我們廣大的牛奶車朋友更多的方便，歡迎大家提出希望可以免運配送的社區，大家的願望很有可能會實現喲 💙</div>' +
+                                    '<div class="mt-4 mx-3 p-2 btn-line-green text-center rounded-3 text-white fs-5"><img src="https://cdn-icons-png.flaticon.com/512/3670/3670089.png" height="48" width="48" class="me-2">歡迎留言給小編</div>';
 
                 await Swal.fire({
                     allowOutsideClick: true,
-                    showConfirmButton: true,
-                    confirmButtonText: '我知道了',
+                    showConfirmButton: false,
+                    showCloseButton: true,
+                    allowEnterKey: false,
+                    // confirmButtonText: '我知道了',
                     background: '#F0F4F7',
                     html: wrapper,
                     customClass: {
