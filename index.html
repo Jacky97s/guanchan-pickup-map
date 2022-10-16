@@ -396,6 +396,13 @@
                     }
 
                     points.map(point => L.marker(new L.LatLng(point.lat, point.lng), { icon: icons.car })  // 新增Marker
+                    const customMarker = L.Marker.extend({
+                        options: { 
+                            pointInfo: {}
+                        }
+                    });
+
+                    points.map(point => new customMarker(new L.LatLng(point.lat, point.lng), { icon: icons.car, pointInfo: point })  // 新增Marker
                         .bindPopup(pointPopup(point)))  // 資訊視窗
                         .forEach(item => markerCluster.addLayer(item));  // 把marker加入 L.markerClusterGroup中
 
@@ -409,12 +416,15 @@
                             circleGroup = L.featureGroup();
 
                             // 將點擊的牛奶車畫出半徑 1KM 的 Circle
-                            L.circle(item.getLatLng(), {
-                                radius: 1000, 
-                                color: '#006EB4', 
-                                weight: 1, 
-                                fillOpacity: .05
-                            }).addTo(circleGroup);
+                            if (item.options.pointInfo.type == '寄放管理室') {
+                                L.circle(item.getLatLng(), {
+                                    radius: 1000, 
+                                    color: '#006EB4', 
+                                    weight: 1, 
+                                    fillOpacity: .05
+                                }).addTo(circleGroup);
+                                map.addLayer(circleGroup);
+                            }
 
                             map.addLayer(circleGroup);
                             map.setView(item.getLatLng(), 15);
@@ -427,14 +437,16 @@
                             circleGroup = L.featureGroup();
 
                             // 將點擊的牛奶車畫出半徑 1KM 的 Circle
-                            L.circle(item.getLatLng(), {
-                                radius: 1000, 
-                                color: '#006EB4', 
-                                weight: 1, 
-                                fillOpacity: .05
-                            }).addTo(circleGroup);
+                            if (item.options.pointInfo.type == '寄放管理室') {
+                                L.circle(item.getLatLng(), {
+                                    radius: 1000, 
+                                    color: '#006EB4', 
+                                    weight: 1, 
+                                    fillOpacity: .05
+                                }).addTo(circleGroup);
+                                map.addLayer(circleGroup);
+                            }
 
-                            map.addLayer(circleGroup);
                             item.openPopup()
                         })
                     })
