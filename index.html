@@ -386,11 +386,16 @@
                     
                     // Popup
                     const pointPopup = point => {
+                        let addressElement = point.address
+                        if (point.type == '定點自取') {
+                            addressElement = `<a href="https://maps.google.com/maps?q=${point.address}" target="_blank">${point.address}</a>`
+                        }
+
                         return `<h5 class="text-center">${point.name}</h5>` +
                             (point.thumbnail !== '' ? `<img class="img-thumbnail img-fluid mb-2" alt="觀展牛奶車" src="${point.thumbnail}">` : ``) +
                             `<table class="table table-sm mt-1 mb-2 table-borderless table-store text-monospace" aria-describedby="info">` +
                                 `<tbody>` +
-                                    `<tr><th>地址</th><td>${point.address}</td></tr>` +
+                                    `<tr><th>地址</th><td>${addressElement}</td></tr>` +
                                     `<tr><th>類型</th><td>${point.type}</td></tr>` +
                                     `<tr><th>時間</th><td>${businessHourInfo(point.businessHour)}</td></tr>` +
                                 `</tbody>` +
