@@ -398,7 +398,7 @@
                     const pointPopup = point => {
                         let addressElement = point.address
                         if (point.type == '定點自取') {
-                            addressElement = `<a href="https://maps.google.com/maps?q=${point.address}" target="_blank">${point.address}</a>`
+                            addressElement = `<a href="https://maps.google.com/maps?q=${point.address}" target="_blank" style="display: flex; align-items: flex-start;"><img src="/assets/images/googleMapsIcon.png" height="15" width="15" class="me-1">${point.address}</a>`
                         }
 
                         return `<h5 class="text-center">${point.name}</h5>` +
