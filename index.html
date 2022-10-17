@@ -549,8 +549,12 @@
             async function openCommunityDeliveryInvitation() {
                 const wrapper = document.createElement('div');
                 wrapper.innerHTML = '<img class="w-100 p-3" src="/assets/images/communityDeliveryInvitation.png" style="border-radius: 30px;">' + 
-                                    '<div class="text-start mx-3" style="color: #2F84C0">為提供我們廣大的牛奶車朋友更多的方便，歡迎大家提出希望可以免運配送的社區，大家的願望很有可能會實現喲 💙</div>' +
-                                    '<div class="mt-4 mx-3 p-2 btn-line-green text-center rounded-3 text-white fs-5"><img src="https://cdn-icons-png.flaticon.com/512/3670/3670089.png" height="48" width="48" class="me-2">歡迎留言給小編</div>';
+                                    '<div class="text-start mx-3 my-2" style="color: #2F84C0">為提供我們廣大的牛奶車朋友更多的方便，歡迎大家提出希望可以免運配送的社區，大家的願望很有可能會實現喲 💙</div>' +
+                                    '<div class="mt-4 mx-3 p-1 btn-line-green text-center fs-6" style="border-radius: 10px;">' +
+                                        '<a class="text-decoration-none text-white me-2" href="https://lin.ee/vZ6U77F" target="_blank">' +
+                                            '<img src="https://cdn-icons-png.flaticon.com/512/3670/3670089.png" height="46" width="46" class="me-2">歡迎留言給小編' + 
+                                        '</a>' +
+                                    '</div>';
 
                 await Swal.fire({
                     allowOutsideClick: true,
