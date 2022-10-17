@@ -270,7 +270,7 @@
                         <a href="https://lin.ee/vZ6U77F" target="_blank">
                             <img src="https://cdn-icons-png.flaticon.com/512/3670/3670089.png" width="45" height="45" role="button" alt="加入官方 Line 好友">
                         </a>
-                        <a href="https://www.facebook.com/gzmilkdaily" target="_blank">
+                        <a id="facebookPageHyperLink" target="_blank">
                             <img src="https://cdn-icons-png.flaticon.com/512/3670/3670032.png" width="45" height="45" role="button" alt="前往 Facebook 粉絲專頁">
                         </a>
                     </div>
@@ -314,6 +314,9 @@
             const icons = {
                 car: new markerIcon({ iconUrl: 'https://i.imgur.com/LvJk5Lc.png' })
             }
+
+            const facebookLink = getFacebookLink()
+            document.getElementById('facebookPageHyperLink').href = facebookLink
 
             initMap()
 
@@ -541,6 +544,31 @@
                     }
                 })
             }
+
+            /* 根據手機平台回傳 Facebook 連結 */
+            function getFacebookLink () {
+                if (isIos() || isAndroid) {
+                    link = "fb://profile/100070453045823"
+                } else {
+                    link = "https://www.facebook.com/gzmilkdaily"
+                }
+
+                return link
+            }
+
+            /* 判斷手機平台 */
+            function isIos (){
+                return (
+                    (navigator.userAgent.toLowerCase().indexOf("ipad") > -1) ||
+                    (navigator.userAgent.toLowerCase().indexOf("iphone") > -1) ||
+                    (navigator.userAgent.toLowerCase().indexOf("ipod") > -1)
+                );
+            }
+
+            function isAndroid () {
+                return navigator.userAgent.toLowerCase().indexOf("android");
+            }
+
         </script>
     </body>
 </html>
