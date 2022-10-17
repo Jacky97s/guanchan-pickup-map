@@ -395,7 +395,6 @@
                             (point.lineOpenChatLink !== '' ? `<a class="btn btn-line-green btn-block text-white mt-2 w-100" href="${point.lineOpenChatLink}" role="button" target="_blank">加入 Line 社群</a>` : ``)
                     }
 
-                    points.map(point => L.marker(new L.LatLng(point.lat, point.lng), { icon: icons.car })  // 新增Marker
                     const customMarker = L.Marker.extend({
                         options: { 
                             pointInfo: {}
