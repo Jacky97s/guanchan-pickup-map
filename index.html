@@ -303,16 +303,26 @@
             let map;
             let markerCluster;
             let locate;
+
             const markerIcon = L.Icon.extend({
                 options: {
-                    iconSize: [64, 64], // size of the icon
+                    iconSize: [70, 70], // size of the icon
+                    iconAnchor: [36, 36], // point of the icon which will correspond to marker's location
+                    popupAnchor: [0, -38], // point from which the popup should open relative to the iconAnchor
+                }
+            })
+
+            const smallMarkerIcon = L.Icon.extend({
+                options: {
+                    iconSize: [50, 50], // size of the icon
                     iconAnchor: [36, 36], // point of the icon which will correspond to marker's location
                     popupAnchor: [0, -38], // point from which the popup should open relative to the iconAnchor
                 }
             })
             
             const icons = {
-                car: new markerIcon({ iconUrl: '/assets/images/GZMilkDailyIcon.png' })
+                pickupTruck: new markerIcon({ iconUrl: '/assets/images/GZMilkDailyIcon.png' }),
+                selfPickupFlag: new smallMarkerIcon({ iconUrl: '/assets/images/selfPickupIcon.png' })
             }
 
             const facebookLink = getFacebookLink()
@@ -409,7 +419,15 @@
                         }
                     });
 
-                    points.map(point => new customMarker(new L.LatLng(point.lat, point.lng), { icon: icons.car, pointInfo: point })  // 新增Marker
+                    function getMarkerIcon (pointType) {
+                        if (pointType == "定點自取") {
+                            return icons.selfPickupFlag
+                        } else {
+                            return icons.pickupTruck
+                        }
+                    }
+
+                    points.map(point => new customMarker(new L.LatLng(point.lat, point.lng), { icon: getMarkerIcon(point.type), pointInfo: point })  // 新增Marker
                         .bindPopup(pointPopup(point)))  // 資訊視窗
                         .forEach(item => markerCluster.addLayer(item));  // 把marker加入 L.markerClusterGroup中
 
