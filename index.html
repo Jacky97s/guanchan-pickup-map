@@ -397,7 +397,7 @@
                     // Popup
                     const pointPopup = point => {
                         let addressElement = point.address
-                        if (point.type == '定點自取') {
+                        if (point.type == '定點取貨') {
                             addressElement = `<a href="https://maps.google.com/maps?q=${point.address}" target="_blank" style="display: flex; align-items: flex-start;"><img src="/assets/images/googleMapsIcon.png" height="15" width="15" class="me-1">${point.address}</a>`
                         }
 
@@ -420,7 +420,7 @@
                     });
 
                     function getMarkerIcon (pointType) {
-                        if (pointType == "定點自取") {
+                        if (pointType == "定點取貨") {
                             return icons.selfPickupFlag
                         } else {
                             return icons.pickupTruck
