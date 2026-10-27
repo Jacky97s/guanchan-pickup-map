@@ -2,7 +2,7 @@
 
 <html lang="zh_TW">
     <head> 
-        <title>觀展牛奶車 - 台中駐點地圖</title>
+        <title>冷藏配送據點地圖 Demo</title>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta property="og:locale" content="zh_TW">
@@ -230,59 +230,34 @@
             <div class="closeBtn" onclick="closeNav()">&times;</div>
                 <div>
                     <div id="profile" >
-                        <img class="img-responsive rounded-circle" id="profile-img" src="/assets/images/GZMilkDailyIcon.png" width="110" height="110">
+                        <img class="img-responsive rounded-circle" id="profile-img" src="/assets/images/appIcon.svg" width="110" height="110">
                     </div>
                     <div id="banner" style="color: #2F84C0">
-                        <h4 id="sidebar-title" class="text-center">PEC GO 觀展牛奶車</h4>
-                        <h6 id="sidebar-subtitle" class="text-center">專配送統一企業冷藏品</h6>
+                        <h4 id="sidebar-title" class="text-center">冷藏配送據點地圖</h4>
+                        <h6 id="sidebar-subtitle" class="text-center">Portfolio Demo・資料皆為虛構</h6>
                     </div>
                     <div id="content" style="color: #2F84C0">
-                        <div class="text-start px-3">觀展牛奶車前進社區為大家服務啦！歡迎大家依據配送區域加入該社群 💙</div>
+                        <div class="text-start px-3">這是一個以 Leaflet 製作的配送據點地圖範例，支援定位、群聚標記與配送範圍顯示 💙</div>
                         <ul class="list-unstyled mt-3 mx-2">
                             <li>
-                                <img src="/assets/images/bulletListTick.png" width="12" height="12" class="mx-2">固定每週配送效期新鮮的產品
+                                <img src="/assets/images/bulletListTick.png" width="12" height="12" class="mx-2">Leaflet 地圖 + 自動定位
                             </li>
                             <li>
-                                <img src="/assets/images/bulletListTick.png" width="12" height="12" class="mx-2">不限訂單金額！免運費！
+                                <img src="/assets/images/bulletListTick.png" width="12" height="12" class="mx-2">MarkerCluster 群聚標記
                             </li>
                             <li>
-                                <img src="/assets/images/bulletListTick.png" width="12" height="12" class="mx-2">週週另享獨家優惠
+                                <img src="/assets/images/bulletListTick.png" width="12" height="12" class="mx-2">CSV 資料來源，免後端即可更新
                             </li>
                             <li>
-                                <img src="/assets/images/bulletListTick.png" width="12" height="12" class="mx-2">冷藏專車配送，品質保證
+                                <img src="/assets/images/bulletListTick.png" width="12" height="12" class="mx-2">配送點顯示 1 公里服務範圍
                             </li>
                         </ul>
-                        <div id="action-list">
-                            <a class="text-decoration-none" href="https://online.fliphtml5.com/bqfbe/caoc" target="_blank">
-                                <div class="action-btn text-left" role="button">
-                                    <img src="/assets/images/catalogueIcon.png" height="28" width="28" class="me-3">產品目錄
-                                </div>
-                            </a>
-                            <div class="action-btn text-left" role="button" onclick="openCommunityDeliveryInvitation()">
-                                <img src="/assets/images/communityDeliveryInvitationicon.png" height="28" width="28" class="me-3">社區配送大募集
-                            </div>
-                        </div>
                     </div>
                 </div>
                 <div>
-                    <div id="sidebar-footer-action">
-                        <a href="tel:04-23507266,507">
-                            <img src="https://cdn-icons-png.flaticon.com/512/446/446446.png" width="45" height="45" role="button" alt="撥打電商部電話">
-                        </a>
-                        <a href="https://lin.ee/vZ6U77F" target="_blank">
-                            <img src="https://cdn-icons-png.flaticon.com/512/3670/3670089.png" width="45" height="45" role="button" alt="加入官方 Line 好友">
-                        </a>
-                        <a id="facebookPageHyperLink" target="_blank">
-                            <img src="https://cdn-icons-png.flaticon.com/512/3670/3670032.png" width="45" height="45" role="button" alt="前往 Facebook 粉絲專頁">
-                        </a>
-                    </div>
-
                     <div id="sidebar-footer">
-                        <div>觀展企業股份有限公司</div>
-                        <div>電商部 04-23507266 #507</div>
-                        <div>台中市西屯區工業區二路9-1號</div>
-                        <!-- <div>電商部 <a class="text-decoration-none" href="tel:04-23507266,507">04-23507266 #507</a></div>
-                        <a class="text-decoration-none" href="https://maps.google.com/maps?q=台中西屯區工業區二路9-1號" target="_blank">台中西屯區工業區二路9-1號</a> -->
+                        <div>Portfolio Demo</div>
+                        <div>地點、名稱、時間皆為示意資料</div>
                     </div>
                 </div>
             </div>
@@ -291,12 +266,9 @@
             <div id="map"></div>
             <div id="layer-visible" class="leaflet-bar leaflet-control text-monospace unselectable">
                 <div id="logo-banner" onClick="openNav()">
-                    <img src="/assets/images/GZMilkDailyIcon.png" width="45" height="45" role="button">
+                    <img src="/assets/images/appIcon.svg" width="45" height="45" role="button">
                     <i class="bi bi-list"></i>
                 </div>
-                <!-- <div class="border-top mt-2 mb-2"></div>
-                <a class="openbtn" onClick="openNav()" role="button" target="_blank">OpenNav</a>
-                <a class="btn btn-pecgo-blue btn-block text-white mt-2 h-auto w-100" href="https://pec-go.web.app" role="button" target="_blank">馬上訂購</a> -->
             </div>
         </div>
 
@@ -323,12 +295,9 @@
             })
             
             const icons = {
-                pickupTruck: new markerIcon({ iconUrl: '/assets/images/GZMilkDailyIcon.png' }),
+                pickupTruck: new markerIcon({ iconUrl: '/assets/images/appIcon.svg' }),
                 selfPickupFlag: new smallMarkerIcon({ iconUrl: '/assets/images/selfPickupIcon.png' })
             }
-
-            const facebookLink = getFacebookLink()
-            document.getElementById('facebookPageHyperLink').href = facebookLink
 
             initMap()
 
@@ -361,8 +330,8 @@
             async function showLoading () {
                 await Swal.fire({
                     title: '請稍候',
-                    text: '觀展牛奶車正在前往據點',
-                    imageUrl: '/assets/images/GZMilkDailyIcon.png',
+                    text: '正在載入據點',
+                    imageUrl: '/assets/images/appIcon.svg',
                     imageWidth: 250,
                     imageHeight: 250,
                     timer: 2500,
@@ -393,7 +362,7 @@
             async function fetchDataAndCreateMarker (markerCluster, options) {
                 try {
                     const points = await fetchData(
-                        url='https://docs.google.com/spreadsheets/d/e/2PACX-1vRoiI74btFPRwDN0496EBKNkXKqvm4FSAt7uvE8AlKIqS7f6LQAjJnNSLip86SSs2t1ytiBSzhFdGis/pub?gid=0&single=true&output=csv'
+                        url='/data/points.csv'
                     )
                     
                     // Popup
@@ -404,7 +373,7 @@
                         }
 
                         return `<h5 class="text-center">${point.name}</h5>` +
-                            (point.thumbnail !== '' ? `<img class="img-thumbnail img-fluid mb-2" alt="觀展牛奶車" src="${point.thumbnail}">` : ``) +
+                            (point.thumbnail !== '' ? `<img class="img-thumbnail img-fluid mb-2" alt="據點照片" src="${point.thumbnail}">` : ``) +
                             `<table class="table table-sm mt-1 mb-2 table-borderless table-store text-monospace" aria-describedby="info">` +
                                 `<tbody>` +
                                     `<tr><th>地址</th><td>${addressElement}</td></tr>` +
@@ -442,7 +411,7 @@
                             map.removeLayer(circleGroup)
                             circleGroup = L.featureGroup();
 
-                            // 將點擊的牛奶車畫出半徑 1KM 的 Circle
+                            // 將點擊的配送點畫出半徑 1KM 的 Circle
                             if (item.options.pointInfo.type == '配送到府') {
                                 L.circle(item.getLatLng(), {
                                     radius: 1000, 
@@ -462,7 +431,7 @@
                             map.removeLayer(circleGroup)
                             circleGroup = L.featureGroup();
 
-                            // 將點擊的牛奶車畫出半徑 1KM 的 Circle
+                            // 將點擊的配送點畫出半徑 1KM 的 Circle
                             if (item.options.pointInfo.type == '配送到府') {
                                 L.circle(item.getLatLng(), {
                                     radius: 1000, 
@@ -546,54 +515,6 @@
                 document.getElementById("layer-visible").style.display = "block";
                 document.getElementById("content").style.visibility = "hidden";
                 document.getElementById("content").style.opacity = "0";
-            }
-
-            async function openCommunityDeliveryInvitation() {
-                const wrapper = document.createElement('div');
-                wrapper.innerHTML = '<img class="w-100 p-3" src="/assets/images/communityDeliveryInvitation.png" style="border-radius: 30px;">' + 
-                                    '<div class="text-start mx-3 my-2" style="color: #2F84C0">為提供我們廣大的牛奶車朋友更多的方便，歡迎大家提出希望可以免運配送的社區，大家的願望很有可能會實現喲 💙</div>' +
-                                    '<div class="mt-4 mx-3 p-1 btn-line-green text-center fs-6" style="border-radius: 10px;">' +
-                                        '<a class="text-decoration-none text-white me-2" href="https://lin.ee/vZ6U77F" target="_blank">' +
-                                            '<img src="https://cdn-icons-png.flaticon.com/512/3670/3670089.png" height="46" width="46" class="me-2">歡迎留言給小編' + 
-                                        '</a>' +
-                                    '</div>';
-
-                await Swal.fire({
-                    allowOutsideClick: true,
-                    showConfirmButton: false,
-                    showCloseButton: true,
-                    allowEnterKey: false,
-                    background: '#F0F4F7',
-                    html: wrapper,
-                    customClass: {
-                        popup: 'modal-swal-popup',
-                        confirmButton: 'modal-swal-confirm-btn'
-                    }
-                })
-            }
-
-            /* 根據手機平台回傳 Facebook 連結 */
-            function getFacebookLink () {
-                if (isIos() || isAndroid) {
-                    link = "fb://profile/100070453045823"
-                } else {
-                    link = "https://www.facebook.com/gzmilkdaily"
-                }
-
-                return link
-            }
-
-            /* 判斷手機平台 */
-            function isIos (){
-                return (
-                    (navigator.userAgent.toLowerCase().indexOf("ipad") > -1) ||
-                    (navigator.userAgent.toLowerCase().indexOf("iphone") > -1) ||
-                    (navigator.userAgent.toLowerCase().indexOf("ipod") > -1)
-                );
-            }
-
-            function isAndroid () {
-                return navigator.userAgent.toLowerCase().indexOf("android");
             }
 
         </script>
