@@ -7,3 +7,10 @@
 - 資料來源為 CSV（`data/points.csv`），可替換為任何 Google Sheets 發佈的 CSV
 
 技術：HTML / Bootstrap 5 / Leaflet / PapaParse / SweetAlert2
+
+## 本地執行
+
+```bash
+python3 -m http.server 8000
+# 開啟 http://localhost:8000
+```
