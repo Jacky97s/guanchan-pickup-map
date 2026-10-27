@@ -302,10 +302,9 @@
             initMap()
 
             async function initMap() {
-                let layers = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
-                    subdomains: 'abcd',
-                    maxZoom: 20,
+                let layers = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+                    maxZoom: 19,
                 })
         
                 // 準備地圖
@@ -328,7 +327,6 @@
                 showLoading()
                 fetchDataAndCreateMarker(markerCluster)
 
-                locate.start()
             }
 
             async function showLoading () {
@@ -456,6 +454,7 @@
                     })
 
                     map.addLayer(markerCluster)
+                    map.fitBounds(markerCluster.getBounds(), { padding: [40, 40] })
                 } catch (err) {
                     console.log(err)
                 }
@@ -469,6 +468,7 @@
                     let rawPoints = await Papa.parse(csv, {
                         encoding: 'utf8',
                         header: true,
+                        skipEmptyLines: true,
                     })
 
                     // 重新命名欄位
